@@ -1,14 +1,14 @@
 <?php
     /*
     Plugin Name: Simple Membership menu
-    Plugin URI: ---
+    Plugin URI: https://github.com/aizech/simple-membership-menu
     Description: Hide menu items following configuration
-    Version: 1.0.0
-    Author: Giovanni CLEMENT
-    Author URI: ---
+    Version: 1.0.1
+    Author: Giovanni Clement / adapted for WordPress 6.x by Bernhard Zechmann
+    Author URI: https://github.com/aizech/simple-membership-menu
     License: GPL2
 
-    Copyright 2015 Giovanni CLEMENT(email: giovanni.clement@gmail.com)
+    Copyright 2015 Giovanni Clement(email: giovanni.clement@gmail.com)
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -84,21 +84,17 @@
              * @since  1.0
              */
             function __construct(){
-
-                //// Admin hooks
-                if(is_admin())
-                {
-                    add_filter( 'wp_edit_nav_menu_walker', array( $this, 'add_swpm_menu_editor' ), 99 );
-                    add_action( 'wp_update_nav_menu_item', array( $this, 'save_swpm_menu_groups' ), 10, 3 );
-                    add_action( 'wp_nav_menu_item_custom_fields', array( $this, 'add_swpm_fields' ), 10, 4 );
-                }
-                else
-                {
-                    //// Regular hooks :  exclude items via filter instead of via custom Walker
+                // Admin hooks
+				if (is_admin() && !defined('DOING_AJAX')) {
+                    add_filter('wp_edit_nav_menu_walker', array($this, 'add_swpm_menu_editor'), 99);
+                    add_action('wp_update_nav_menu_item', array($this, 'save_swpm_menu_groups'), 10, 3);
+                    add_action('wp_nav_menu_item_custom_fields', array($this, 'add_swpm_fields'), 10, 4);
+                } else {
+                    // Regular hooks: exclude items via filter instead of via custom Walker
                     add_filter('wp_get_nav_menu_items', array($this, 'exclude_menu_items'));
                 }
             }
-
+            
             /**
              * Replace default menu editor walker with ours
              *
@@ -140,12 +136,12 @@
                             $checked = in_array($level->id, $item_groups) || (count($item_groups) == 0 && $level->id == self::NOT_LOGGED_IN_LEVEL_ID) ? "checked" : "";
                             ?>
                             <label class="menu-item-title" style="padding-top:8px;padding-bottom:8px;">
-                               <?php printf(
-                                 '<input type="checkbox" class="menu-item-checkbox" name="%3$s" value="%1$s" %4$s> %2$s',
-                                 $level->id,
-                                 $level->alias,
-                                 $name,
-                                 $checked); ?><br/>
+                            <?php printf(
+                                '<input type="checkbox" class="menu-item-checkbox" name="%3$s" value="%1$s" %4$s> %2$s',
+                                $level->id,
+                                $level->alias,
+                                $name,
+                                $checked); ?><br/>
                             </label>
                         <?php } ?>
                     </p>
@@ -197,34 +193,40 @@
                 $hide_children_of = array();
 
                 // SWPM auth instance
+                if ( !class_exists( "SwpmAuth" ) ) {
+                    include("../simple-membership/classes/class.swpm-auth.php");
+                }
                 $auth = SwpmAuth::get_instance();
                 $is_logged = $auth->is_logged_in();
 
                 //// Getting if auth, user group
                 $level = $is_logged ? $auth->get('membership_level') : self::NOT_LOGGED_IN_LEVEL_ID;
 
-                // Iterate over the items to search and destroy
-                foreach ( $items as $key => $item ) {
-                    $item_groups = get_post_meta( $item->ID, self::META_KEY_NAME, true );
+				// Iterate over the items to search and destroy
+				foreach ( $items as $key => $item ) {
+					$item_groups = get_post_meta( $item->ID, self::META_KEY_NAME, true );
 
-                    // hide any item that is the child of a hidden item
-                    if( in_array( $item->menu_item_parent, $hide_children_of ) ){
-                        $visible = false;
-                        $hide_children_of[] = $item->ID; // for nested menus
-                    }
+					// Ensure $item_groups is an array
+					$item_groups = is_array($item_groups) ? $item_groups : array($item_groups);
 
-                    //// Check rights
-                    $visible = count($item_groups) == 0 || in_array($level, $item_groups);
+					// hide any item that is the child of a hidden item
+					if (in_array( $item->menu_item_parent, $hide_children_of )) {
+						$visible = false;
+						$hide_children_of[] = $item->ID; // for nested menus
+					}
 
-                    // add filter to work with plugins that don't use traditional roles
-                    $visible = apply_filters( 'swpm_menu_item_visibility', $visible, $item );
+					// Check rights
+					$visible = count($item_groups) == 0 || in_array($level, $item_groups);
 
-                    // unset non-visible item
-                    if ( ! $visible ) {
-                        $hide_children_of[] = $item->ID; // store ID of item
-                        unset( $items[$key] ) ;
-                    }
-                }
+					// add filter to work with plugins that don't use traditional roles
+					$visible = apply_filters( 'swpm_menu_item_visibility', $visible, $item );
+
+					// unset non-visible item
+					if ( ! $visible ) {
+						$hide_children_of[] = $item->ID; // store ID of item
+						unset( $items[$key] );
+					}
+				}
 
                 return $items;
             }

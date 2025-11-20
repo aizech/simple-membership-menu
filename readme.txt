@@ -4,7 +4,7 @@ Tags: member, members, members only, membership, memberships, register, WordPres
 Requires at least: 3.3
 Tested up to: 4.3
 Dependencies : Simple Membership Plugin
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,9 @@ This plugin is a extension of the great plugin : [Simple Membership Plugin](http
 None
 
 == Changelog ==
+
+= 1.0.1 =
+- Tested and adapted for WordPress 6.x.
 
 = 1.0.0 =
 - Add group access restriction to menu items ( Appearance -> Menu ) following the roles created from the Simple Membership Panel.

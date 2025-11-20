@@ -18,17 +18,23 @@
          * @param int    $depth  Depth of menu item. Used for padding.
          * @param array  $args   Menu item args.
          * @param int    $id     Nav menu ID.
+         * 
+         * 
+         * '/(?=<p[^>]+class="[^"]*field-move)/',
+         * '/(?=<fieldset[^>]+class="[^"]*field-move)/',
+         * 
          */
         function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
             $item_output = '';
             parent::start_el( $item_output, $item, $depth, $args, $id );
-            $output .= preg_replace(
+			$output .= preg_replace(
             // NOTE: Check this regex from time to time!
-                '/(?=<p[^>]+class="[^"]*field-move)/',
+				'/(?=<p[^>]+class="[^"]*field-move)/',
                 $this->get_fields( $item, $depth, $args ),
                 $item_output
             );
-        }
+		}
+		
         /**
          * Get custom fields
          *
@@ -48,3 +54,4 @@
             return ob_get_clean();
         }
     }
+?>

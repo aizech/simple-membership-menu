@@ -41,5 +41,8 @@ This plugin is a extension of the great plugin : [Simple Membership Plugin](http
 
 # Changelog
 
+## 1.0.1
+- Tested and adapted for WordPress 6.x.
+
 ## 1.0.0
 - Add group access restriction to menu items ( Appearance -> Menu ) following the available groups created from the Simple Membership Panel.
