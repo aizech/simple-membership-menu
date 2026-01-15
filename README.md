@@ -3,19 +3,18 @@
 Contributors: gclem
 Tags: member, members, members only, membership, memberships, register, WordPress membership plugin, content, content protection, paypal, restrict, restrict access, Restrict content, admin, access control, subscription, teaser, protection, profile, login, login page, menu, menu auth, menu access
 
-Requires at least: 3.3
-Tested up to: 4.6
-Dependencies : Simple Membership Plugin
-Stable tag: Simple Membership 4.6.9
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Requires at least: 3.3  
+Tested up to: 4.6  
+Dependencies : Simple Membership Plugin  
+Stable tag: Simple Membership 4.6.9  
+License: GPLv2 or later  
+License URI: http://www.gnu.org/licenses/gpl-2.0.html  
 
 Simple membership Menu, give access restriction to menu items, following SWPM available groups.
 
 # Description
 
-= Simple Membership Menu permits to set rights to the menu items =
-By the way, you can hide or show, menu items following the configurated groups ( Simple Membership group )
+Simple Membership Menu permits to set rights to the menu items. By the way, you can hide or show, menu items following the configurated groups (Simple Membership group)
 
 # Documentation 
 
