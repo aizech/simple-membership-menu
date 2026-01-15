@@ -1,7 +1,5 @@
 # Simple Membership Menu
 
-TEST 
-
 Contributors: gclem
 Tags: member, members, members only, membership, memberships, register, WordPress membership plugin, content, content protection, paypal, restrict, restrict access, Restrict content, admin, access control, subscription, teaser, protection, profile, login, login page, menu, menu auth, menu access
 
