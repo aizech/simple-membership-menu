@@ -4,9 +4,9 @@ Contributors: gclem
 Tags: member, members, members only, membership, memberships, register, WordPress membership plugin, content, content protection, paypal, restrict, restrict access, Restrict content, admin, access control, subscription, teaser, protection, profile, login, login page, menu, menu auth, menu access
 
 Requires at least: 3.3
-Tested up to: 4.3
+Tested up to: 4.6
 Dependencies : Simple Membership Plugin
-Stable tag: Simple Membership 3.0.8
+Stable tag: Simple Membership 4.6.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
